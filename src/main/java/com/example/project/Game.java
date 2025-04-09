@@ -1,7 +1,7 @@
 package com.example.project;
 import java.util.Scanner;
 
-public class Game{//game
+public class Game{
     private Grid grid;
     private Player player;
     private Enemy[] enemies;
@@ -32,7 +32,7 @@ public class Game{//game
     public Game(int size){ //the constructor should call initialize() and play()
         this.size = size;  //initialize size
         this.initialize();
-
+        play();
     }
 
     public static void clearScreen() { //do not modify
@@ -52,42 +52,53 @@ public class Game{//game
     }
     public void play(){ //write your game logic here
         Scanner scanner = new Scanner(System.in);
-        boolean playAgain;
-        Game a = new Game(10); //create a new game 
-        a.getGrid().display(); //display the grid 
-        System.out.println(a.getPlayer().getCoords()); //returns the x value of the player 
-        System.out.println(a.getPlayer().getRowCol(size)); //returns the x value of the player 
-        System.out.println(a.getPlayer().getTreasureCount()); //returns the x value of the player 
-        System.out.println(a.getPlayer().getLives()); //returns the x value of the player 
-        System.out.println("Enter a direction (w,a,s,d) or 'q' to exit: " ); //returns the x value of the player 
-        String input = scanner.nextLine();
-        while (!input.equals("q")) {
-            
-        }
+    
 
-        System.out.print("Play again?"); //asks the player if they want to play again 
-        String answer = scanner.nextLine(); //takes the input from the player 
-        while(answer.equals("yes")){ //if the player wants to play again 
+        while(true){ //if the player wants to play again 
             try {
                 Thread.sleep(100); // Wait for 1/10 seconds
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             clearScreen(); // Clear the screen at the beggining of the while loop
+            grid.display(); //display the grid 
+            System.out.println(player.getCoords()); //prints the coordinates of the player 
+            System.out.println(player.getRowCol(size)); //prints the row and column of the player 
+            System.out.println(player.getTreasureCount()); //prints the amount of treasures that the player has
+            System.out.println(player.getLives()); //prints the lives that the player has 
+            System.out.println("Enter a direction (w,a,s,d) or 'q' to exit: " ); //returns the x value of the player 
+            String input = scanner.nextLine();
+            if(input.equals("a") ||input.equals("w") ||input.equals("s") ||input.equals("d")){
+                //CODE to find the object that the player is going to land on here:
+
+                player.interact(size, input, treasures.length, new Object());
+                if(player.isValid(size, input)){//update this afterwards
+                    player.move(input);
+                }
+                grid.placeSprite(player, input);
             }
+            if(player.getWin()){
+                grid.win();
+                break;
+            } else if(player.getLives() < 1){
+                grid.gameover();
+                break;
+            }
+        }
     }
+    
 
     public void initialize(){
 
         //to test, create a player, trophy, grid, treasure, and enemies. Then call placeSprite() to put them on the grid
         player = new Player(2, 3);  //create new player
         grid = new Grid(size);   //create new grid 
-        trophy = new Trophy(size- 1, size -1);  //create new trophy
+        trophy = new Trophy(size - 1, size - 1);  //create new trophy
         grid.placeSprite(player); //place the player on the grid 
         grid.placeSprite(trophy); //place the trophy on the grid 
     }
 
     public static void main(String[] args) {
-        
+        Game a = new Game(10);
     }
 }
