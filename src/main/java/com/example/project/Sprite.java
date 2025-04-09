@@ -8,14 +8,14 @@ public class Sprite {
         this.y = y;    //initialize y
     }
 
-    public int getX(){return x;}//placeholder
-    public int getY(){return y;}
+    public int getX(){return x;} //returns the x value 
+    public int getY(){return y;} //returns the y value 
 
-    public void setX(int num){ x=num;}
-    public void setY(int num){y=num;}
+    public void setX(int num){ x=num;} //sets the x value to the new value in the parameter
+    public void setY(int num){y=num;} //sets the y value to the new value in the parameter
 
     public String getCoords(){ //returns the coordinates of the sprite ->"(x,y)"
-        return "(" + x + "," + y + ")";
+        return "(" + x + "," + y + ")"; 
     }
 
     public String getRowCol(int size){ //returns the row and column of the sprite -> "[row][col]"
